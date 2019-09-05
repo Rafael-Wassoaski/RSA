@@ -9,7 +9,7 @@ public class Encriptador {
 
 	private Integer n, p, q, d, fator;
 	private String frase;
-	private double e;
+	private Integer e;
 	private ArrayList<String> ascii = new ArrayList<>();
 	private BigInteger [] vetorAscii ;
 
@@ -137,6 +137,7 @@ public class Encriptador {
 			}
 			vetorAscii[i] = new BigInteger(fraseAscii.substring(0, tamanhoN-1));
 			fraseAscii  = fraseAscii.replace(fraseAscii.substring(0, tamanhoN-1), "");
+			
 		}
 		
 		
@@ -150,51 +151,55 @@ public class Encriptador {
 	public void Criptografar() {
 		
 		
-		BigInteger resultado, novoN, novoE;
-		long eLong = (long) e;
+		BigInteger novoN = BigInteger.valueOf(n);
 		
 		String resultadoCripto = "";
-		novoE = BigInteger.valueOf(eLong);
-		novoN = BigInteger.valueOf(n);
+	
 		for(int i = 0; i < vetorAscii.length; i++) {
 			
 			if(vetorAscii[i] == null) {
 				break;
 			}
-			resultado = vetorAscii[i];
 			
 			
-			resultado = resultado.modPow(novoE, novoN);
+			//System.out.println(String.format("%d ^ %d mod %d", vetorAscii[i], e, n));
+			vetorAscii[i] = vetorAscii[i].pow(e).mod(novoN);
+
 			
 			
 			//cripto
 			
-			vetorAscii[i] = resultado;
-		
-			resultadoCripto+= resultado;
-		}
-		JOptionPane.showConfirmDialog(null, "Sua mensagem: " + resultadoCripto);
-	
-		novoE = BigInteger.valueOf(d);
-		resultadoCripto = "";
-		for(int i = 0; i < vetorAscii.length; i++) {
 			
+			
+		
+			
+		}
+		
+		
+		String temp;
+		
+		for(int i = 0; i < vetorAscii.length; i++) {
 			if(vetorAscii[i] == null) {
 				break;
 			}
-			resultado = vetorAscii[i];
-		
-			resultado = resultado.modPow(novoE, novoN);
-		
+			temp = vetorAscii[i].toString();
+			//System.out.println(temp);
+			if(temp.length() < n.toString().length()) {
+				
+				for(int j = temp.length(); j < n.toString().length()-1; j++) {
+					temp = "0" + temp;
+				}
+			}
 			
 			
+			//System.out.println(temp);
 			
-			
-			vetorAscii[i] = resultado;
-			resultadoCripto+= resultado;
+			resultadoCripto+=temp;
 			
 		}
-		JOptionPane.showConfirmDialog(null, "Sua mensagem de: " + resultadoCripto);
+		JOptionPane.showConfirmDialog(null, "Sua mensagem: " + resultadoCripto);
+	
+		
 		
 	
 		
@@ -204,7 +209,7 @@ public class Encriptador {
 	public void rodar() {
 		
 		n = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o valor de N"));
-		e = Double.valueOf(JOptionPane.showInputDialog(null, "Digite o valor de E"));
+		e = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o valor de E"));
 		d = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o valor de D"));
 		//LerPrimos();
 		//n = p * q;

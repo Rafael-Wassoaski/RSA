@@ -5,7 +5,8 @@ import javax.swing.JOptionPane;
 public class Decriptar {
 	
 	private String valores;
-	private Integer n , d;
+	private BigInteger n;
+	private Integer d;
 	public Decriptar() {
 
 		
@@ -13,14 +14,14 @@ public class Decriptar {
 		
 		
 		
-		this.n = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o valor de N"));
+		this.n = new BigInteger(JOptionPane.showInputDialog(null, "Digite o valor de N"));
 		this.d = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o valor de D"));
 	}
 	
 	
 	public void Desencriptar() {
 		String fraseAscii  = "";
-		String temp = "3";
+		String temp = "";
 		
 		
 		String vetorAscii = "";
@@ -38,10 +39,47 @@ public class Decriptar {
 			}	while(valores.length() >= n.toString().length()-1);
 		
 		
-		System.out.println(vetorAscii);
+	
 		String[] vetorDividido = vetorAscii.split(";");
 		
-		System.out.println(vetorDividido[0]);
+		
+		
+		
+		
+		BigInteger descri;
+		Integer descri2;
+		
+		for(int j = 0; j < vetorDividido.length; j++) {
+			
+			if(vetorDividido[j]==null) {
+				break;
+			}
+			descri = new BigInteger(vetorDividido[j]);
+			descri= descri.pow(d).mod(n);
+			temp+=descri;
+		
+		}
+		
+		
+		
+		String descriptografada = "";
+		String desc = "";
+		int conver;
+		System.out.println(temp);
+		for(i = 0; i < temp.length(); i++) {
+			desc+=temp.charAt(i);
+			
+			if(Integer.valueOf(desc) <= 122 && Integer.valueOf(desc) >= 65) {
+				conver = Integer.valueOf(desc);
+				desc = "";
+				descriptografada+=Character.toString((char)conver);
+				
+			}
+			
+
+		}
+		
+		JOptionPane.showConfirmDialog(null, "Sua mensagem: " + descriptografada);
 	}
 	
 	
