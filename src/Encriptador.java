@@ -192,11 +192,30 @@ public class Encriptador {
 			}
 			
 			
-			//System.out.println(temp);
-			
-			resultadoCripto+=temp;
 			
 		}
+		
+		
+		for( int i = 0; i < vetorAscii.length; i++) {
+			if(vetorAscii[i] == null) {
+				break;
+			}
+			temp = vetorAscii[i].toString();
+			//System.out.println(temp);
+			if(temp.length() >= n.toString().length()) {
+				
+				for(int j = temp.length(); j < (n.toString().length()*2)-2; j++) {
+					temp = temp+"0";
+				}
+			}
+		
+		
+		//System.out.println(temp);
+		
+		resultadoCripto+=temp;
+		
+		
+	}
 		JOptionPane.showConfirmDialog(null, "Sua mensagem: " + resultadoCripto);
 	
 		

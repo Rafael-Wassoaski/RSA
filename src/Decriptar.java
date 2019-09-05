@@ -63,18 +63,21 @@ public class Decriptar {
 		
 		
 		String descriptografada = "";
-		String desc = "";
+		String desc = "", temporaria = "";
 		int conver;
-		System.out.println(temp);
+	System.out.println(temp);
 		for(i = 0; i < temp.length(); i++) {
-			desc+=temp.charAt(i);
-			
-			if(Integer.valueOf(desc) <= 122 && Integer.valueOf(desc) >= 65) {
+			temporaria+=temp.charAt(i);
+			if(Integer.valueOf(temporaria) < 65) {
+				desc= temporaria;
+			}else {
 				conver = Integer.valueOf(desc);
 				desc = "";
 				descriptografada+=Character.toString((char)conver);
-				
+				temporaria = "";
 			}
+			
+			
 			
 
 		}
