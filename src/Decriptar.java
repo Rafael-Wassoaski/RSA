@@ -54,8 +54,12 @@ public class Decriptar {
 			if(vetorDividido[j]==null) {
 				break;
 			}
+			
+			
 			descri = new BigInteger(vetorDividido[j]);
+			
 			descri= descri.pow(d).mod(n);
+			
 			temp+=descri;
 		
 		}
@@ -63,23 +67,16 @@ public class Decriptar {
 		
 		
 		String descriptografada = "";
-		String desc = "", temporaria = "";
+		
 		int conver;
-	System.out.println(temp);
-		for(i = 0; i < temp.length(); i++) {
-			temporaria+=temp.charAt(i);
-			if(Integer.valueOf(temporaria) < 65) {
-				desc= temporaria;
-			}else {
-				conver = Integer.valueOf(desc);
-				desc = "";
-				descriptografada+=Character.toString((char)conver);
-				temporaria = "";
-			}
-			
-			
-			
 
+	
+		i=0;
+		int guarda;
+		while (i < temp.length()) {
+			guarda = Integer.valueOf(temp.substring(i, Math.min(i+2,temp.length())));
+			descriptografada+=Character.toString((char) guarda);
+		      i+= 2;
 		}
 		
 		JOptionPane.showConfirmDialog(null, "Sua mensagem: " + descriptografada);

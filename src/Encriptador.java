@@ -1,6 +1,7 @@
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -15,7 +16,7 @@ public class Encriptador {
 
 	public Encriptador(String frase) {
 
-		this.frase = frase;
+		this.frase = frase.toUpperCase();
 	}
 
 	public void LerPrimos() {
@@ -75,7 +76,7 @@ public class Encriptador {
 		Random rand = new Random();
 		while (continuar) {
 			continuar = false;
-			retorno = rand.nextInt(100);
+			retorno = rand.nextInt(1000);
 			
 					
 			if(retorno < 2) {
@@ -98,13 +99,13 @@ public class Encriptador {
 	
 	public void calcularChaveD() {
 	
-		for(int i = 0; ; i++)
+		for(int i = 0; ; i++) {
 
-			if((this.e*i)% ((this.p - 1) * (this.q - 1)) == 1){
+			if((this.e*i) % ((this.p - 1) * (this.q - 1)) == 1){
 				this.d = i;
 				break;
 			}
-
+		}
 		
 	
 	}
@@ -114,36 +115,36 @@ public class Encriptador {
 		String fraseAscii = "";
 		for(int i = 0; i < frase.length(); i++) {
 			fraseAscii+=String.valueOf((int)frase.charAt(i));
+			
 		}
+		
+		
 		int tamanhoN = n.toString().length();
 		
 		
 		vetorAscii = new BigInteger[fraseAscii.length()];
 
-		
-		int  i = 0;
-	do{
-			
-			vetorAscii[i] = new BigInteger(fraseAscii.substring(0, tamanhoN-1));
-			fraseAscii  = fraseAscii.replace(fraseAscii.substring(0, tamanhoN-1), "");
-			
-			i++;
-		}	while(fraseAscii.length() >= tamanhoN-1);
-		
-		
-		if(!fraseAscii.isBlank() || !fraseAscii.isEmpty()) {
-			for(i = fraseAscii.length(); i < tamanhoN-1; i++) {
-				fraseAscii+="0";
-			}
-			vetorAscii[i] = new BigInteger(fraseAscii.substring(0, tamanhoN-1));
-			fraseAscii  = fraseAscii.replace(fraseAscii.substring(0, tamanhoN-1), "");
-			
-		}
-		
-		
-		
+		int  i = 0, d=0;
 
 		
+		String aux;
+		do {
+			aux = fraseAscii.substring(i, Math.min(i+tamanhoN-1,fraseAscii.length()));
+			
+			if(aux.length() < tamanhoN-1) {
+				for(int j = aux.length(); j < tamanhoN-1; j++) {
+					aux+="0";
+				}
+			}
+			
+		      vetorAscii[d] =new BigInteger(aux);
+		    
+		      
+		      i+= tamanhoN-1;
+		      d++;
+		}while (i < fraseAscii.length() );
+		
+				
 		
 	}
 	
@@ -154,17 +155,15 @@ public class Encriptador {
 		BigInteger novoN = BigInteger.valueOf(n);
 		
 		String resultadoCripto = "";
-	
+
 		for(int i = 0; i < vetorAscii.length; i++) {
 			
 			if(vetorAscii[i] == null) {
 				break;
 			}
-			
-			
-			//System.out.println(String.format("%d ^ %d mod %d", vetorAscii[i], e, n));
+	
 			vetorAscii[i] = vetorAscii[i].pow(e).mod(novoN);
-
+		
 			
 			
 			//cripto
@@ -201,6 +200,13 @@ public class Encriptador {
 				break;
 			}
 			temp = vetorAscii[i].toString();
+			
+			if(temp.length() < n.toString().length()-1) {
+				for(int j = temp.length(); j < n.toString().length()-1; j++) {
+					temp+="0";
+				}
+			}
+			
 			//System.out.println(temp);
 			if(temp.length() >= n.toString().length()) {
 				
@@ -208,7 +214,7 @@ public class Encriptador {
 					temp = temp+"0";
 				}
 			}
-		
+		System.out.println(temp);
 		
 		//System.out.println(temp);
 		
